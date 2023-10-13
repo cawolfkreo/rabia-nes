@@ -25,8 +25,8 @@ fn main() {
         p_register: 0x34,
     };
 
-    let insturction_lines = INSTRUCTIONS.split("\n");
-    for line in insturction_lines {
+    let instruction_lines = INSTRUCTIONS.split("\n");
+    for line in instruction_lines {
         let mut iter = line.split(" ");
         let instruction = iter.next();
         let arg = iter.next();
@@ -74,7 +74,6 @@ fn execute_instruction(instruction: &str, arguments: &str, cpu: &mut Cpu, ram: &
     }
 
 }
-
 
 fn parse_from_str<T>(num_in_str: &str) -> T where T: Num + FromStr {
     let wrapped = {

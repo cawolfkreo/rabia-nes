@@ -5,4 +5,4 @@ another NES emulator, this time using Rust!!
 Not right now, still WIP.
 
 # How can I learn about this?
-The [Nes dev website](https://www.nesdev.org) and the [Nes dev wiki](https://www.nesdev.org/wiki/Nesdev_Wiki). Additionally, thanks to [Easy 6502](http://skilldrick.github.io/easy6502/) for the 6502 assembly tutorial.
+The [Nes dev website](https://www.nesdev.org) and the [Nes dev wiki](https://www.nesdev.org/wiki/Nesdev_Wiki). Additionally, thanks to [Easy 6502](http://skilldrick.github.io/easy6502/) for the 6502 assembly tutorial. There is also the section on [Emulation tutorials](https://www.nesdev.org/wiki/Emulation_tutorials) on the Nes Dev wiki.
