@@ -1,7 +1,7 @@
 use std::str::FromStr;
 use num_traits::Num;
 
-const INSTRUCTIONS: &'static str  = "lda #42\nsta $0015\nnotAnInstruction\nldx #23\nldy #69\nlda 0\nlda $FF";
+const INSTRUCTIONS: &'static str = "lda #42\nsta $0015\nnotAnInstruction\nldx #23\nldy #69\nlda 0\nlda $FF";
 
 const ZERO_FLAG: u8 = 1 << 1;
 
