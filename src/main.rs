@@ -5,7 +5,7 @@ const INSTRUCTIONS: &'static str = "lda #42\nsta $0015\nnotAnInstruction\nldx #2
 
 const ZERO_FLAG: u8 = 1 << 1;
 
-const NEGATIVE_FLAG: u8 = 1 << 6;
+const NEGATIVE_FLAG: u8 = 1 << 7;
 
 struct Cpu {
     a_register: u8,
@@ -64,11 +64,15 @@ fn execute_instruction(instruction: &str, arguments: &str, cpu: &mut Cpu, ram: &
             cpu.x_register = parse_from_str(arguments);
             let x = cpu.x_register;
             println!("The x register is: {x}");
+            set_zero_flag(cpu.x_register, cpu);
+            set_negative_flag(cpu.x_register, cpu);
         },
         "ldy" => {
             cpu.y_register = parse_from_str(arguments);
             let y = cpu.y_register;
             println!("The y register is: {y}");
+            set_zero_flag(cpu.y_register, cpu);
+            set_negative_flag(cpu.y_register, cpu);
         }
         _ => println!("This isn't a instruction!!"),
     }
@@ -101,11 +105,6 @@ fn set_zero_flag(register: u8, cpu: &mut Cpu) {
 }
 
 fn set_negative_flag(register: u8, cpu: &mut Cpu) {
-    let x = cpu.p_register;
-    println!("cpu.p_register pre is {x:08b}");
-    let mask_proc = register & NEGATIVE_FLAG;
-    let or_equals = cpu.p_register | mask_proc;
-    cpu.p_register = or_equals;
-    let x = cpu.p_register;
-    println!("cpu.p_register pos is {x:08b}");
+    //println!("input register ___ is {register:08b}");
+    cpu.p_register |= register & NEGATIVE_FLAG;
 }
