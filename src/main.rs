@@ -78,6 +78,7 @@ fn execute_instruction(instruction: &str, arguments: &str, cpu: &mut Cpu, ram: &
             set_zero_flag(cpu.y_register, cpu);
             set_negative_flag(cpu.y_register, cpu);
         }
+        "nop" => () , //What did you expect? it's "no operation!!!"
         _ => println!("This isn't a instruction!!"),
     }
 
