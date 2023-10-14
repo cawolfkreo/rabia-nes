@@ -1,7 +1,8 @@
-use std::str::FromStr;
 use num_traits::Num;
+use std::str::FromStr;
 
-const INSTRUCTIONS: &'static str = "lda #42\nsta $0015\nnotAnInstruction\nldx #23\nldy #69\nlda 0\nlda $FF";
+const INSTRUCTIONS: &'static str =
+    "lda #42\nsta $0015\nnotAnInstruction\nldx #23\nldy #69\nlda 0\nlda $FF\nnop";
 
 const CARRY_FLAG: u8 = 1;
 
@@ -43,9 +44,7 @@ fn main() {
     }
 }
 
-
-fn execute_instruction(instruction: &str, arguments: &str, cpu: &mut Cpu, ram: &mut[u8]) {
-
+fn execute_instruction(instruction: &str, arguments: &str, cpu: &mut Cpu, ram: &mut [u8]) {
     match instruction {
         "lda" => {
             cpu.a_register = parse_from_str(arguments);
@@ -55,7 +54,7 @@ fn execute_instruction(instruction: &str, arguments: &str, cpu: &mut Cpu, ram: &
             set_negative_flag(cpu.a_register, cpu);
             clear_carry_flag(cpu);
             set_carry_flag(cpu);
-        },
+        }
         "sta" => {
             let index: usize = parse_from_str(arguments);
 
@@ -63,14 +62,14 @@ fn execute_instruction(instruction: &str, arguments: &str, cpu: &mut Cpu, ram: &
 
             let memory_peaked = ram[index];
             println!("The ram at index {index} is: {memory_peaked}")
-        },
+        }
         "ldx" => {
             cpu.x_register = parse_from_str(arguments);
             let x = cpu.x_register;
             println!("The x register is: {x}");
             set_zero_flag(cpu.x_register, cpu);
             set_negative_flag(cpu.x_register, cpu);
-        },
+        }
         "ldy" => {
             cpu.y_register = parse_from_str(arguments);
             let y = cpu.y_register;
@@ -78,13 +77,15 @@ fn execute_instruction(instruction: &str, arguments: &str, cpu: &mut Cpu, ram: &
             set_zero_flag(cpu.y_register, cpu);
             set_negative_flag(cpu.y_register, cpu);
         }
-        "nop" => () , //What did you expect? it's "no operation!!!"
+        "nop" => (), //What did you expect? it's "no operation!!!"
         _ => println!("This isn't a instruction!!"),
     }
-
 }
 
-fn parse_from_str<T>(num_in_str: &str) -> T where T: Num + FromStr {
+fn parse_from_str<T>(num_in_str: &str) -> T
+where
+    T: Num + FromStr,
+{
     let wrapped = {
         if num_in_str.starts_with('$') {
             let prefixed_string = num_in_str.strip_prefix('$').unwrap();
@@ -96,7 +97,7 @@ fn parse_from_str<T>(num_in_str: &str) -> T where T: Num + FromStr {
             <T>::from_str_radix(num_in_str, 10)
         }
     };
-    
+
     wrapped.ok().expect("I cannot parse that!!!")
 }
 
@@ -113,10 +114,10 @@ fn set_negative_flag(register: u8, cpu: &mut Cpu) {
     cpu.p_register |= register & NEGATIVE_FLAG;
 }
 
-fn set_carry_flag(cpu: &mut Cpu){
+fn set_carry_flag(cpu: &mut Cpu) {
     cpu.p_register |= CARRY_FLAG;
 }
 
-fn clear_carry_flag(cpu: &mut Cpu){
+fn clear_carry_flag(cpu: &mut Cpu) {
     cpu.p_register &= !CARRY_FLAG;
 }
