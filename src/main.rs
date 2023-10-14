@@ -3,6 +3,8 @@ use num_traits::Num;
 
 const INSTRUCTIONS: &'static str = "lda #42\nsta $0015\nnotAnInstruction\nldx #23\nldy #69\nlda 0\nlda $FF";
 
+const CARRY_FLAG: u8 = 1;
+
 const ZERO_FLAG: u8 = 1 << 1;
 
 const NEGATIVE_FLAG: u8 = 1 << 7;
@@ -51,6 +53,8 @@ fn execute_instruction(instruction: &str, arguments: &str, cpu: &mut Cpu, ram: &
             println!("The a register is: {a}");
             set_zero_flag(cpu.a_register, cpu);
             set_negative_flag(cpu.a_register, cpu);
+            clear_carry_flag(cpu);
+            set_carry_flag(cpu);
         },
         "sta" => {
             let index: usize = parse_from_str(arguments);
@@ -107,4 +111,12 @@ fn set_zero_flag(register: u8, cpu: &mut Cpu) {
 fn set_negative_flag(register: u8, cpu: &mut Cpu) {
     //println!("input register ___ is {register:08b}");
     cpu.p_register |= register & NEGATIVE_FLAG;
+}
+
+fn set_carry_flag(cpu: &mut Cpu){
+    cpu.p_register |= CARRY_FLAG;
+}
+
+fn clear_carry_flag(cpu: &mut Cpu){
+    cpu.p_register &= !CARRY_FLAG;
 }
