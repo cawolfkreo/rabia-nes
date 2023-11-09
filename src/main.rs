@@ -37,48 +37,10 @@ fn main() {
         match instruction {
             Some(inst) => {
                 let arg = if arg.is_none() { "" } else { arg.unwrap() };
-                execute_instruction(inst, arg, &mut cpu, &mut ram);
+                cpu.execute_instruction(inst, arg, &mut ram);
             }
             None => continue,
         }
-    }
-}
-
-fn execute_instruction(instruction: &str, arguments: &str, cpu: &mut Cpu, ram: &mut [u8]) {
-    match instruction {
-        "lda" => {
-            cpu.a_register = parse_from_str(arguments);
-            let a = cpu.a_register;
-            println!("The a register is: {a}");
-            set_zero_flag(cpu.a_register, cpu);
-            set_negative_flag(cpu.a_register, cpu);
-            clear_carry_flag(cpu);
-            set_carry_flag(cpu);
-        }
-        "sta" => {
-            let index: usize = parse_from_str(arguments);
-
-            ram[index] = cpu.a_register;
-
-            let memory_peaked = ram[index];
-            println!("The ram at index {index} is: {memory_peaked}")
-        }
-        "ldx" => {
-            cpu.x_register = parse_from_str(arguments);
-            let x = cpu.x_register;
-            println!("The x register is: {x}");
-            set_zero_flag(cpu.x_register, cpu);
-            set_negative_flag(cpu.x_register, cpu);
-        }
-        "ldy" => {
-            cpu.y_register = parse_from_str(arguments);
-            let y = cpu.y_register;
-            println!("The y register is: {y}");
-            set_zero_flag(cpu.y_register, cpu);
-            set_negative_flag(cpu.y_register, cpu);
-        }
-        "nop" => (), //What did you expect? it's "no operation!!!"
-        _ => println!("This isn't a instruction!!"),
     }
 }
 
@@ -101,23 +63,62 @@ where
     wrapped.ok().expect("I cannot parse that!!!")
 }
 
-fn set_zero_flag(register: u8, cpu: &mut Cpu) {
-    if register == 0 {
-        cpu.p_register |= ZERO_FLAG;
-    } else {
-        cpu.p_register &= !ZERO_FLAG;
+impl Cpu {
+    fn execute_instruction(&mut self, instruction: &str, arguments: &str, ram: &mut [u8]) {
+        match instruction {
+            "lda" => {
+                self.a_register = parse_from_str(arguments);
+                println!("The a register is: {}", self.a_register);
+                self.set_zero_flag(self.a_register);
+                self.set_negative_flag(self.a_register);
+                self.clear_carry_flag();
+                self.set_carry_flag();
+            }
+            "sta" => {
+                let index: usize = parse_from_str(arguments);
+
+                ram[index] = self.a_register;
+
+                let memory_peaked = ram[index];
+                println!("The ram at index {index} is: {memory_peaked}")
+            }
+            "ldx" => {
+                self.x_register = parse_from_str(arguments);
+                let x = self.x_register;
+                println!("The x register is: {x}");
+                self.set_zero_flag(self.a_register);
+                self.set_negative_flag(self.a_register);
+            }
+            "ldy" => {
+                self.y_register = parse_from_str(arguments);
+                let y = self.y_register;
+                println!("The y register is: {y}");
+                self.set_zero_flag(self.a_register);
+                self.set_negative_flag(self.a_register);
+            }
+            "nop" => (), //What did you expect? it's "no operation!!!"
+            _ => println!("This isn't a instruction!!"),
+        }
     }
-}
 
-fn set_negative_flag(register: u8, cpu: &mut Cpu) {
-    //println!("input register ___ is {register:08b}");
-    cpu.p_register |= register & NEGATIVE_FLAG;
-}
+    fn set_zero_flag(&mut self, register: u8) {
+        if register == 0 {
+            self.p_register |= ZERO_FLAG;
+        } else {
+            self.p_register &= !ZERO_FLAG;
+        }
+    }
 
-fn set_carry_flag(cpu: &mut Cpu) {
-    cpu.p_register |= CARRY_FLAG;
-}
+    fn set_negative_flag(&mut self, register: u8) {
+        //println!("input register ___ is {register:08b}");
+        self.p_register |= register & NEGATIVE_FLAG;
+    }
 
-fn clear_carry_flag(cpu: &mut Cpu) {
-    cpu.p_register &= !CARRY_FLAG;
+    fn set_carry_flag(&mut self) {
+        self.p_register |= CARRY_FLAG;
+    }
+
+    fn clear_carry_flag(&mut self) {
+        self.p_register &= !CARRY_FLAG;
+    }
 }
