@@ -15,6 +15,15 @@ pub struct Cpu {
 }
 
 impl Cpu {
+    pub fn new() -> Self {
+        Self {
+            a_register: 0,
+            x_register: 0,
+            y_register: 0,
+            p_register: 0,
+        }
+    }
+
     pub fn execute_instruction(&mut self, instruction: &str, arguments: &str, ram: &mut [u8]) {
         match instruction {
             "lda" => {
