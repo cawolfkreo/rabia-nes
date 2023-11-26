@@ -2,8 +2,6 @@ mod cpu;
 
 use cpu::Cpu;
 
-pub use cpu::CARRY_FLAG;
-
 const INSTRUCTIONS: &'static str =
     "lda #42\nsta $0015\nnotAnInstruction\nldx #23\nldy #69\nlda 0\nlda $FF\nnop";
 
