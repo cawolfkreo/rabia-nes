@@ -20,7 +20,7 @@ impl Cpu {
             a_register: 0,
             x_register: 0,
             y_register: 0,
-            p_register: 0,
+            p_register: 0x34,
         }
     }
 
@@ -100,4 +100,30 @@ where
     };
 
     wrapped.ok().expect("I cannot parse that!!!")
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn clear_only_carry_flag() {
+        // arrange
+        let mut cpu = Cpu::new();
+        cpu.p_register = 0xff; //We set all the flags to "1". 0xff = 0b1111_1111
+
+        // Act
+        cpu.clear_carry_flag(); // This should only clear the carry flag.
+
+        // Test
+        let carry_flag = cpu.p_register & 0b0000_0001;
+        assert_eq!(carry_flag, 0);
+
+        let always_1_flag = cpu.p_register & 0b0010_0000;
+        assert_eq!(always_1_flag, 0b0010_0000, "the 'always 1' flag was unset!");
+
+        let other_flags = cpu.p_register & 0b1111_1110;
+        assert_ne!(other_flags, 0, "All the flags got cleared!");
+        assert_eq!(other_flags, 0b1111_1110, "These incorrect p register state after carry  flag clear!");
+    }
 }

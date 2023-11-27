@@ -1,7 +1,5 @@
 use std::process;
 
-use rusty_nes;
-
 fn main() {
 
     let emulation_result = rusty_nes::run();
