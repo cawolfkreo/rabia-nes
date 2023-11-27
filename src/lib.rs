@@ -12,8 +12,7 @@ pub fn run () -> Result<(), Box<dyn Error>> {
 
     let mut cpu = Cpu::new();
 
-    let instruction_lines = INSTRUCTIONS.split("\n");
-    for line in instruction_lines {
+    for line in INSTRUCTIONS.lines() {
         let mut iter = line.split(" ");
         let instruction = iter.next();
         let arg_split = iter.next();
