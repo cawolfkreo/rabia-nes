@@ -16,14 +16,11 @@ pub fn run () -> Result<(), Box<dyn Error>> {
     for line in instruction_lines {
         let mut iter = line.split(" ");
         let instruction = iter.next();
-        let arg = iter.next();
+        let arg_split = iter.next();
 
-        match instruction {
-            Some(inst) => {
-                let arg = if arg.is_none() { "" } else { arg.unwrap() };
-                cpu.execute_instruction(inst, arg, &mut ram);
-            }
-            None => continue,
+        if let Some(inst) = instruction {
+            let arg = arg_split.unwrap_or("");
+            cpu.execute_instruction(inst, arg, &mut ram);
         }
     }
 
