@@ -14,12 +14,12 @@ pub fn run () -> Result<(), Box<dyn Error>> {
 
     for line in INSTRUCTIONS.lines() {
         let mut iter = line.split(" ");
-        let instruction = iter.next();
+        let instruction_split = iter.next();
         let arg_split = iter.next();
 
-        if let Some(inst) = instruction {
-            let arg = arg_split.unwrap_or("");
-            cpu.execute_instruction(inst, arg, &mut ram);
+        if let Some(instruction) = instruction_split {
+            let arguments = arg_split.unwrap_or("");
+            cpu.execute_instruction(instruction, arguments, &mut ram);
         }
     }
 
