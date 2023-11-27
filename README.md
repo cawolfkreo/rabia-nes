@@ -1,3 +1,5 @@
+![CI job status](https://github.com/cawolfkreo/rabia-nes/workflows/CI/badge.svg)
+
 # What is this?
 another NES emulator, this time using Rust!!
 
