@@ -3,7 +3,7 @@ use std::error::Error;
 mod cpu;
 use cpu::Cpu;
 
-const INSTRUCTIONS: &'static str =
+const INSTRUCTIONS: &str =
     "lda #42\nsta $0015\nnotAnInstruction\nldx #23\nldy #69\nlda 0\nlda $FF\nnop";
 
 pub fn run () -> Result<(), Box<dyn Error>> {
@@ -13,7 +13,7 @@ pub fn run () -> Result<(), Box<dyn Error>> {
     let mut cpu = Cpu::new();
 
     for line in INSTRUCTIONS.lines() {
-        let mut iter = line.split(" ");
+        let mut iter = line.split(' ');
         let instruction_split = iter.next();
         let arg_split = iter.next();
 
