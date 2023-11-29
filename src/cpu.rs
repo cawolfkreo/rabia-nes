@@ -1,7 +1,7 @@
 use num_traits::Num;
 use std::str::FromStr;
 
-const CARRY_FLAG: u8 = 1;
+const CARRY_FLAG: u8 = 1 << 0;
 
 const ZERO_FLAG: u8 = 1 << 1;
 
@@ -84,8 +84,8 @@ impl Cpu {
 }
 
 fn parse_from_str<T>(num_in_str: &str) -> T
-where
-    T: Num + FromStr,
+    where
+        T: Num + FromStr,
 {
     let wrapped = {
         if num_in_str.starts_with('$') {
