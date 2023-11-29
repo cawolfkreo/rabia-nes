@@ -17,13 +17,13 @@ pub fn run() -> Result<(), Box<dyn Error>> {
 
     for line in INSTRUCTIONS.lines() {
         let mut iter = line.split(' ');
-        let instruction_split = iter.next();
-        let arg_split = iter.next();
+        
+        let Some(instruction) = iter.next() else {
+            return Err("couldn't retrieve an instruction from the line!".into());
+        };
 
-        if let Some(instruction) = instruction_split {
-            let arguments = arg_split.unwrap_or("");
-            cpu.execute_instruction(instruction, arguments, &mut ram);
-        }
+        let arguments = iter.next().unwrap_or("");
+        cpu.execute_instruction(instruction, arguments, &mut ram);
     }
 
     let mut controller1 = Controller::new();

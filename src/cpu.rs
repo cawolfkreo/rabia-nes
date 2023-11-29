@@ -1,5 +1,5 @@
-use num_traits::Num;
 use std::str::FromStr;
+use num_traits::Num;
 
 const CARRY_FLAG: u8 = 1 << 0;
 
@@ -7,6 +7,7 @@ const ZERO_FLAG: u8 = 1 << 1;
 
 const NEGATIVE_FLAG: u8 = 1 << 7;
 
+#[derive(Default)]
 pub struct Cpu {
     pub a_register: u8,
     pub x_register: u8,
@@ -17,10 +18,8 @@ pub struct Cpu {
 impl Cpu {
     pub fn new() -> Self {
         Self {
-            a_register: 0,
-            x_register: 0,
-            y_register: 0,
             p_register: 0x34,
+            ..Default::default()
         }
     }
 
@@ -39,25 +38,22 @@ impl Cpu {
 
                 ram[index] = self.a_register;
 
-                let memory_peaked = ram[index];
-                println!("The ram at index {index} is: {memory_peaked}")
+                println!("The ram at index {index} is: {}", ram[index]);
             }
             "ldx" => {
                 self.x_register = parse_from_str(arguments);
-                let x = self.x_register;
-                println!("The x register is: {x}");
+                println!("The x register is: {}", self.x_register);
                 self.set_zero_flag(self.a_register);
                 self.set_negative_flag(self.a_register);
             }
             "ldy" => {
                 self.y_register = parse_from_str(arguments);
-                let y = self.y_register;
-                println!("The y register is: {y}");
+                println!("The y register is: {}", self.y_register);
                 self.set_zero_flag(self.a_register);
                 self.set_negative_flag(self.a_register);
             }
             "nop" => (), //What did you expect? it's "no operation!!!"
-            _ => println!("This isn't a instruction!!"),
+            _ => println!("This isn't an instruction!!"),
         }
     }
 
@@ -124,6 +120,6 @@ mod tests {
 
         let other_flags = cpu.p_register & 0b1111_1110;
         assert_ne!(other_flags, 0, "All the flags got cleared!");
-        assert_eq!(other_flags, 0b1111_1110, "These incorrect p register state after carry  flag clear!");
+        assert_eq!(other_flags, 0b1111_1110, "The p register has a wrong state after carry flag clear!");
     }
 }
