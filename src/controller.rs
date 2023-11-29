@@ -86,6 +86,6 @@ mod tests {
         let state = controller.get_controller_state();
 
         // Test
-        assert_eq!(state, !mask, "The controller flag has a wrong state!");
+        assert_eq!(state, mask, "The controller flag has a wrong state!");
     }
 }
