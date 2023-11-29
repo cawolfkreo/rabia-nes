@@ -49,7 +49,7 @@ mod tests {
             controller.set_controller_flag(mask, ControllerState::On);
 
             // Test
-            assert_eq!(controller.controller_state, mask, "Unexpected value in controller state");
+            assert_eq!(controller.controller_state, mask, "The controller flag has a wrong state after flag set!");
 
             mask = mask << 1;
         }
@@ -69,7 +69,7 @@ mod tests {
             controller.set_controller_flag(mask, ControllerState::Off);
 
             // Test
-            assert_eq!(controller.controller_state, !mask, "Unexpected value in controller state");
+            assert_eq!(controller.controller_state, !mask, "The controller flag has a wrong state after flag clear!");
 
             mask = mask << 1;
         }
@@ -86,6 +86,6 @@ mod tests {
         let state = controller.get_controller_state();
 
         // Test
-        assert_eq!(state, !mask, "Unexpected value in controller state");
+        assert_eq!(state, !mask, "The controller flag has a wrong state!");
     }
 }
