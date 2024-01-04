@@ -4,7 +4,7 @@ mod cpu;
 mod controller;
 
 use cpu::Cpu;
-use crate::controller::{Controller, ControllerState};
+use controller::{Controller, ControllerState};
 
 const INSTRUCTIONS: &str =
     "lda #42\nsta $0015\nnotAnInstruction\nldx #23\nldy #69\nlda 0\nlda $FF\nnop";
