@@ -3,26 +3,15 @@ use std::fs;
 
 mod cpu;
 mod controller;
+mod config;
 
 use cpu::Cpu;
 use controller::{Controller, ControllerState}; //TODO: we should not bring the enum into scope like this, but we can leave it for now while we add more functionality
 
+pub use config::Config;
+
 const INSTRUCTIONS: &str =
     "lda #42\nsta $0015\nnotAnInstruction\nldx #23\nldy #69\nlda 0\nlda $FF\nnop";
-
-#[derive(Default)]
-pub struct Config {
-    pub rom_path: Option<String>,
-}
-
-impl Config {
-    pub fn new(rom_path: Option<String>) -> Self{
-        Self {
-            rom_path,
-            ..Default::default()
-        }
-    }
-}
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     //The ram should be it's own structure to be honest. I'll keep it like this for now
