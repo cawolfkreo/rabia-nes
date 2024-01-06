@@ -1,12 +1,12 @@
 use std::error::Error;
 use std::fs;
 
-mod cpu;
-mod controller;
 mod config;
+mod controller;
+mod cpu;
 
-use cpu::Cpu;
-use controller::{Controller, ControllerState}; //TODO: we should not bring the enum into scope like this, but we can leave it for now while we add more functionality
+use controller::{Controller, ControllerState};
+use cpu::Cpu; //TODO: we should not bring the enum into scope like this, but we can leave it for now while we add more functionality
 
 pub use config::Config;
 
@@ -23,7 +23,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 
     for line in instructions.lines() {
         let mut iter = line.split(' ');
-        
+
         let Some(instruction) = iter.next() else {
             return Err("couldn't retrieve an instruction from the line!".into());
         };
@@ -41,7 +41,10 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     controller1.set_controller_flag(controller::BUTTON_DOWN, ControllerState::On);
     controller1.set_controller_flag(controller::BUTTON_LEFT, ControllerState::On);
     controller1.set_controller_flag(controller::BUTTON_RIGHT, ControllerState::On);
-    println!("Controller state is {:08b}", controller1.get_controller_state());
+    println!(
+        "Controller state is {:08b}",
+        controller1.get_controller_state()
+    );
 
     Ok(())
 }
@@ -51,11 +54,10 @@ fn get_instructions(rom_path: &Option<String>) -> String {
         println!("Reading from file {path}");
 
         if let Ok(file_contents) = read_rom_file(path) {
-           return file_contents;
+            return file_contents;
         }
 
         println!("we couldn't read from file.");
-
     }
 
     println!("Using internal instruction test");

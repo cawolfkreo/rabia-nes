@@ -19,16 +19,17 @@ pub struct Controller {
 impl Controller {
     pub fn new() -> Self {
         Self {
-            controller_state: 0x00
+            controller_state: 0x00,
         }
     }
 
-    pub fn get_controller_state(& self) -> u8 {
+    pub fn get_controller_state(&self) -> u8 {
         self.controller_state
     }
 
     pub fn set_controller_flag(&mut self, button_mask: u8, state: ControllerState) {
-        self.controller_state = (self.controller_state & !button_mask)  | (button_mask & state as u8);
+        self.controller_state =
+            (self.controller_state & !button_mask) | (button_mask & state as u8);
     }
 }
 
@@ -49,9 +50,12 @@ mod tests {
             controller.set_controller_flag(mask, ControllerState::On);
 
             // Test
-            assert_eq!(controller.controller_state, mask, "The controller flag has a wrong state after flag set!");
+            assert_eq!(
+                controller.controller_state, mask,
+                "The controller flag has a wrong state after flag set!"
+            );
 
-            mask = mask << 1;
+            mask <<= 1;
         }
     }
 
@@ -69,9 +73,12 @@ mod tests {
             controller.set_controller_flag(mask, ControllerState::Off);
 
             // Test
-            assert_eq!(controller.controller_state, !mask, "The controller flag has a wrong state after flag clear!");
+            assert_eq!(
+                controller.controller_state, !mask,
+                "The controller flag has a wrong state after flag clear!"
+            );
 
-            mask = mask << 1;
+            mask <<= 1;
         }
     }
 

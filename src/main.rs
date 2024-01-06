@@ -18,10 +18,7 @@ fn main() {
 fn create_config() -> Config {
     let args: Vec<String> = env::args().collect();
 
-    let rom_path = match args.get(1) {
-        Some(ref path) => Some(path.to_string()),
-        None => None
-    };
+    let rom_path = args.get(1).map(|path| path.to_string());
 
     Config::new(rom_path)
 }

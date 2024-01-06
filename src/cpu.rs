@@ -1,5 +1,5 @@
-use std::str::FromStr;
 use num_traits::Num;
+use std::str::FromStr;
 
 const CARRY_FLAG: u8 = 1 << 0;
 
@@ -80,8 +80,8 @@ impl Cpu {
 }
 
 fn parse_from_str<T>(num_in_str: &str) -> T
-    where
-        T: Num + FromStr,
+where
+    T: Num + FromStr,
 {
     let wrapped = {
         if num_in_str.starts_with('$') {
@@ -120,6 +120,9 @@ mod tests {
 
         let other_flags = cpu.p_register & 0b1111_1110;
         assert_ne!(other_flags, 0, "All the flags got cleared!");
-        assert_eq!(other_flags, 0b1111_1110, "The p register has a wrong state after carry flag clear!");
+        assert_eq!(
+            other_flags, 0b1111_1110,
+            "The p register has a wrong state after carry flag clear!"
+        );
     }
 }
