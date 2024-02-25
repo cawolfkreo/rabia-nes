@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "rusty-nes"
+name = "rabia-nes"
 version = "0.1.0"
 dependencies = [
  "num-traits",
