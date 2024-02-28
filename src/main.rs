@@ -1,12 +1,12 @@
 use std::env;
 use std::process;
 
-use rusty_nes::Config;
+use rabia_nes::Config;
 
 fn main() {
     let config: Config = create_config();
 
-    let emulation_result = rusty_nes::run(config);
+    let emulation_result = rabia_nes::run(config);
 
     if let Err(e) = emulation_result {
         eprintln!("Emulation error triggered!!");
